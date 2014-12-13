@@ -175,6 +175,7 @@ coap_free_endpoint(coap_endpoint_t *ep) {
 
 #ifndef CUSTOM_COAP_NETWORK_SEND
 
+#ifndef IPV6_RECVPKTINFO
 /* define struct in6_pktinfo and struct in_pktinfo if not available
    FIXME: check with configure 
 */
@@ -188,6 +189,7 @@ struct in_pktinfo {
   struct in_addr ipi_spec_dst;
   struct in_addr ipi_addr;
 };
+#endif
 
 #ifdef __GNUC__
 #define UNUSED_PARAM __attribute__ ((unused))
