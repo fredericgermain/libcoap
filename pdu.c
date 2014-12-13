@@ -243,7 +243,7 @@ coap_add_data(coap_pdu_t *pdu, unsigned int len, const unsigned char *data) {
     return 1;
 
   if (pdu->length + len + 1 > pdu->max_size) {
-    warn("coap_add_data: cannot add: data too large for PDU\n");
+    warn("coap_add_data: cannot add: data (%d) too large for PDU (%d)\n", len, pdu->max_size);
     assert(pdu->data == NULL);
     return 0;
   }
