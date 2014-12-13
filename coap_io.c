@@ -95,7 +95,7 @@ coap_free_posix_endpoint(struct coap_endpoint_t *ep) {
 coap_endpoint_t *
 coap_new_endpoint(const coap_address_t *addr, int flags) {
   int sockfd = socket(addr->addr.sa.sa_family, SOCK_DGRAM, 0);
-  int on = 1;
+  int on = 0;
   struct coap_endpoint_t *ep;
 
   if (sockfd < 0) {
