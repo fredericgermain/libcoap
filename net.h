@@ -79,9 +79,19 @@ struct coap_context_t;
 #ifndef WITHOUT_ASYNC
 struct coap_async_state_t;
 #endif
+    
+/** Message handler that is used as call-back in coap_context_t */
+typedef void (*coap_request_handler_t)(struct coap_context_t  *,
+    void*userdata,
+    const coap_endpoint_t *local_interface,
+    const coap_address_t *remote,
+    coap_pdu_t *received,
+    const coap_tid_t id);
+
 
 /** Message handler that is used as call-back in coap_context_t */
-typedef void (*coap_response_handler_t)(struct coap_context_t  *, 
+typedef void (*coap_response_handler_t)(struct coap_context_t  *,
+					void*userdata,
 					const coap_endpoint_t *local_interface,
 					const coap_address_t *remote,
 					coap_pdu_t *sent,
@@ -142,6 +152,8 @@ typedef struct coap_context_t {
    */
   unsigned int observe;
 
+  void* userdata;
+  coap_request_handler_t request_handler;
   coap_response_handler_t response_handler;
 } coap_context_t;
 
@@ -153,9 +165,13 @@ typedef struct coap_context_t {
  * @param handler The response handler to register.
  */
 static inline void 
-coap_register_response_handler(coap_context_t *context, 
-			       coap_response_handler_t handler) {
-  context->response_handler = handler;
+coap_register_handlers(coap_context_t *context,
+					   void* userdata,
+					   coap_request_handler_t request_handler,
+					   coap_response_handler_t response_handler) {
+  context->userdata = userdata;
+  context->request_handler = request_handler;
+  context->response_handler = response_handler;
 }
 
 /** 

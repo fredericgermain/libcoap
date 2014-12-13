@@ -1362,10 +1362,18 @@ handle_request(coap_context_t *context, coap_queue_t *node) {
   coap_key_t key;
 
   coap_option_filter_clear(opt_filter);
+  if (context->request_handler) {
+    context->request_handler(context, context->userdata,
+                             &node->local_if,
+                             &node->remote,
+                             node ? node->pdu : NULL,
+                             node->id);
+  } else {
   
-  /* try to find the resource from the request URI */
-  coap_hash_request_uri(node->pdu, key);
-  resource = coap_get_resource_from_key(context, key);
+    /* try to find the resource from the request URI */
+    coap_hash_request_uri(node->pdu, key);
+    resource = coap_get_resource_from_key(context, key);
+  
   
   if (!resource) {
     /* The resource was not found. Check if the request URI happens to
@@ -1498,7 +1506,8 @@ handle_request(coap_context_t *context, coap_queue_t *node) {
       debug("cannot send response for transaction %u\n", node->id);
     }
     coap_delete_pdu(response);
-  }  
+  }
+  }
 }
 
 static inline void
@@ -1517,7 +1526,8 @@ handle_response(coap_context_t *context,
 
   /* Call application-specific reponse handler when available. */
   if (context->response_handler) {
-    context->response_handler(context, &rcvd->local_if,
+    context->response_handler(context, context->userdata,
+                             &rcvd->local_if,
 			      &rcvd->remote, sent ? sent->pdu : NULL, 
 			      rcvd->pdu, rcvd->id);
   }
