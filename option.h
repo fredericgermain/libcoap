@@ -117,7 +117,7 @@ coap_option_filter_clear(coap_opt_filter_t f) {
  */
 inline static int
 coap_option_setb(coap_opt_filter_t filter, unsigned short type) {
-  return bits_setb((uint8_t *)filter, sizeof(coap_opt_filter_t), type);
+  return bits_setb((uint8_t *)filter, sizeof(coap_opt_filter_t), (uint8_t)type);
 }
 
 /** 
@@ -132,7 +132,7 @@ coap_option_setb(coap_opt_filter_t filter, unsigned short type) {
  */
 inline static int
 coap_option_clrb(coap_opt_filter_t filter, unsigned short type) {
-  return bits_clrb((uint8_t *)filter, sizeof(coap_opt_filter_t), type);
+  return bits_clrb((uint8_t *)filter, sizeof(coap_opt_filter_t), (uint8_t)type);
 }
 
 /** 
@@ -147,7 +147,7 @@ coap_option_clrb(coap_opt_filter_t filter, unsigned short type) {
  */
 inline static int
 coap_option_getb(const coap_opt_filter_t filter, unsigned short type) {
-  return bits_getb((uint8_t *)filter, sizeof(coap_opt_filter_t), type);
+  return bits_getb((uint8_t *)filter, sizeof(coap_opt_filter_t), (uint8_t)type);
 }
 
 /** 
