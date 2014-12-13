@@ -414,6 +414,7 @@ coap_pdu_parse(unsigned char *data, size_t length, coap_pdu_t *pdu) {
 	  (unsigned char *)pdu->hdr + pdu->length);
     pdu->data = (unsigned char *)opt;
   }
+  pdu->data_length = length;
 
   return 1;
 
